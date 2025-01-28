@@ -2,6 +2,10 @@ from flask import Flask, render_template, request ,redirect ,url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager , login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
+
+port = int(os.getenv("PORT", 4000))
+
 
 app = Flask(__name__)
 
@@ -167,7 +171,10 @@ def team_collaboration():
 
 
 
-
+@app.route('/save-settings', methods=['POST'])
+def save_settings():
+    # Process the settings here
+    return redirect(url_for('home')) 
 
 
 
@@ -175,7 +182,12 @@ def team_collaboration():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('hello'))
+
+'''@app.route('/settings') 
+def settings():
+    return render_template('settings.html')'''
 
 
-app.run()
+
+app.run(debug=True)
